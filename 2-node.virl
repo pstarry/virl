@@ -240,6 +240,5 @@ end
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.128.2" netPrefixLenV4="30"/>
         <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="kali-1" type="SIMPLE" subtype="kali" location="68,55"/>
     <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
 </topology>
