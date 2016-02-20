@@ -10,31 +10,17 @@
         <interface id="0" name="port2" ipv4="10.0.0.2" netPrefixLenV4="17"/>
         <interface id="1" name="port3" ipv4="10.0.128.1" netPrefixLenV4="17"/>
     </node>
-    <node name="iosvl2-1" type="SIMPLE" subtype="IOSvL2" location="287,272">
+    <node name="iosvl2-1" type="SIMPLE" subtype="IOSvL2" location="289,263">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="config" type="String">! IOSvL2 Config generated on 2016-01-27 19:52
-! by autonetkit_0.20.9
+            <entry key="config" type="String">!
+! Last configuration change at 22:44:12 UTC Thu Feb 11 2016
 !
 version 15.2
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 service compress-config
-no service config
-enable password cisco
-ip classless
-ip subnet-zero
-no ip domain lookup
-!
-line vty 0 4
-transport input ssh telnet
-exec-timeout 720 0
-password cisco
-login
-!
-line con 0
-password cisco
 !
 hostname iosvl2-1
 !
@@ -42,22 +28,31 @@ boot-start-marker
 boot-end-marker
 !
 !
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+enable password cisco
 !
 no aaa new-model
+!
+!
+!
+!
 !
 vtp domain virl.lab
 vtp mode transparent
 !
 !
 !
-!
-!
-no cdp run
-!
-!
-!
+no ip domain-lookup
 ip cef
 no ipv6 cef
+!
 !
 !
 spanning-tree mode pvst
@@ -65,50 +60,54 @@ spanning-tree extend system-id
 !
 vlan internal allocation policy ascending
 !
+vlan 2
+ name ank_vlan2
+no cdp run
+!
+! 
 !
 !
 !
-vrf definition Mgmt-intf
 !
- address-family ipv4
- exit-address-family
- !
- address-family ipv6
- exit-address-family
+!
+!
+!
 !
 !
 !
 !
 !
 interface Loopback0
-  description Loopback
-!
-interface GigabitEthernet0/0
-  description OOB management
-  ! Configured on launch
-  vrf forwarding Mgmt-intf
-  no switchport
-  no ip address
-  no shutdown
+ description Loopback
+ no ip address
 !
 interface GigabitEthernet0/1
-  description to server-1
-  switchport access vlan 2
-  switchport mode access
-  no shutdown
+ description to server-1
+ switchport access vlan 2
+ switchport mode access
+ media-type rj45
+ negotiation auto
 !
 interface GigabitEthernet0/2
-  description to fortios-1
-  switchport access vlan 2
-  switchport mode access
-  no shutdown
+ description to fortios-1
+ switchport access vlan 2
+ switchport mode access
+ media-type rj45
+ negotiation auto
 !
 interface GigabitEthernet0/3
-  description to lxc-iperf-1
-  switchport access vlan 2
-  switchport mode access
-  no shutdown
+ description to lxc-iperf-1
+ switchport access vlan 2
+ switchport mode access
+ media-type rj45
+ negotiation auto
 !
+interface GigabitEthernet0/0
+ description OOB management
+ no switchport
+ vrf forwarding Mgmt-intf
+ ip address 172.16.1.192 255.255.255.0
+ negotiation auto
 !
 ip forward-protocol nd
 !
@@ -122,40 +121,61 @@ no ip http secure-server
 !
 control-plane
 !
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ password cisco
+line aux 0
+line vty 0 4
+ exec-timeout 720 0
+ password cisco
+ login
+ transport input telnet ssh
 !
 !
-end
-        </entry>
+end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1"/>
         <interface id="1" name="GigabitEthernet0/2"/>
         <interface id="2" name="GigabitEthernet0/3"/>
     </node>
-    <node name="iosvl2-2" type="SIMPLE" subtype="IOSvL2" location="544,280">
+    <node name="iosvl2-2" type="SIMPLE" subtype="IOSvL2" location="551,263">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="config" type="String">! IOSvL2 Config generated on 2016-01-27 19:52
-! by autonetkit_0.20.9
+            <entry key="config" type="String">!
+! Last configuration change at 22:44:23 UTC Thu Feb 11 2016
 !
 version 15.2
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 service compress-config
-no service config
-enable password cisco
-ip classless
-ip subnet-zero
-no ip domain lookup
-!
-line vty 0 4
-transport input ssh telnet
-exec-timeout 720 0
-password cisco
-login
-!
-line con 0
-password cisco
 !
 hostname iosvl2-2
 !
@@ -163,22 +183,31 @@ boot-start-marker
 boot-end-marker
 !
 !
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+enable password cisco
 !
 no aaa new-model
+!
+!
+!
+!
 !
 vtp domain virl.lab
 vtp mode transparent
 !
 !
 !
-!
-!
-no cdp run
-!
-!
-!
+no ip domain-lookup
 ip cef
 no ipv6 cef
+!
 !
 !
 spanning-tree mode pvst
@@ -186,50 +215,54 @@ spanning-tree extend system-id
 !
 vlan internal allocation policy ascending
 !
+vlan 2
+ name ank_vlan2
+no cdp run
+!
+! 
 !
 !
 !
-vrf definition Mgmt-intf
 !
- address-family ipv4
- exit-address-family
- !
- address-family ipv6
- exit-address-family
+!
+!
+!
 !
 !
 !
 !
 !
 interface Loopback0
-  description Loopback
-!
-interface GigabitEthernet0/0
-  description OOB management
-  ! Configured on launch
-  vrf forwarding Mgmt-intf
-  no switchport
-  no ip address
-  no shutdown
+ description Loopback
+ no ip address
 !
 interface GigabitEthernet0/1
-  description to fortios-1
-  switchport access vlan 2
-  switchport mode access
-  no shutdown
+ description to fortios-1
+ switchport access vlan 2
+ switchport mode access
+ media-type rj45
+ negotiation auto
 !
 interface GigabitEthernet0/2
-  description to server-2
-  switchport access vlan 2
-  switchport mode access
-  no shutdown
+ description to server-2
+ switchport access vlan 2
+ switchport mode access
+ media-type rj45
+ negotiation auto
 !
 interface GigabitEthernet0/3
-  description to lxc-iperf-2
-  switchport access vlan 2
-  switchport mode access
-  no shutdown
+ description to lxc-iperf-2
+ switchport access vlan 2
+ switchport mode access
+ media-type rj45
+ negotiation auto
 !
+interface GigabitEthernet0/0
+ description OOB management
+ no switchport
+ vrf forwarding Mgmt-intf
+ ip address 172.16.1.194 255.255.255.0
+ negotiation auto
 !
 ip forward-protocol nd
 !
@@ -243,16 +276,51 @@ no ip http secure-server
 !
 control-plane
 !
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ password cisco
+line aux 0
+line vty 0 4
+ exec-timeout 720 0
+ password cisco
+ login
+ transport input telnet ssh
 !
 !
-end
-        </entry>
+end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1"/>
         <interface id="1" name="GigabitEthernet0/2"/>
         <interface id="2" name="GigabitEthernet0/3"/>
     </node>
-    <node name="server-1" type="SIMPLE" subtype="server" location="205,285">
+    <node name="server-1" type="SIMPLE" subtype="server" location="183,336">
         <extensions>
             <entry key="config" type="String">#cloud-config
 bootcmd:
@@ -269,7 +337,7 @@ runcmd:
 - service sshd restart
 users:
 - default
-- gecos: User configured by VIRL Configuration Engine 0.20.22
+- gecos: User configured by VIRL Configuration Engine 0.21.6
   lock-passwd: false
   name: cisco
   plain-text-passwd: cisco
@@ -311,7 +379,7 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.0.3" netPrefixLenV4="17"/>
     </node>
-    <node name="server-2" type="SIMPLE" subtype="server" location="692,303">
+    <node name="server-2" type="SIMPLE" subtype="server" location="748,338">
         <extensions>
             <entry key="config" type="String">#cloud-config
 bootcmd:
@@ -328,7 +396,7 @@ runcmd:
 - service sshd restart
 users:
 - default
-- gecos: User configured by VIRL Configuration Engine 0.20.22
+- gecos: User configured by VIRL Configuration Engine 0.21.6
   lock-passwd: false
   name: cisco
   plain-text-passwd: cisco
@@ -370,96 +438,94 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.128.2" netPrefixLenV4="17"/>
     </node>
-    <node name="lxc-iperf-1" type="SIMPLE" subtype="lxc-iperf" location="222,217">
+    <node name="lxc-iperf-1" type="SIMPLE" subtype="lxc-iperf" location="176,184">
         <extensions>
-            <entry key="config" type="String">#cloud-config&#xD;
-bootcmd:&#xD;
-- ln -s -t /etc/rc.d /etc/rc.local&#xD;
-hostname: lxc-iperf-1&#xD;
-manage_etc_hosts: true&#xD;
-runcmd:&#xD;
-- systemctl start rc-local&#xD;
-- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config&#xD;
-- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config&#xD;
-- service ssh restart&#xD;
-- service sshd restart&#xD;
-users:&#xD;
-- default&#xD;
-- gecos: User configured by VIRL Configuration Engine 0.20.22&#xD;
-  lock-passwd: false&#xD;
-  name: cisco&#xD;
-  plain-text-passwd: cisco&#xD;
-  shell: /bin/bash&#xD;
-  ssh-authorized-keys:&#xD;
-  - VIRL-USER-SSH-PUBLIC-KEY&#xD;
-  sudo: ALL=(ALL) ALL&#xD;
-write_files:&#xD;
-- path: /etc/systemd/system/dhclient@.service&#xD;
-  content: |&#xD;
-    [Unit]&#xD;
-    Description=Run dhclient on %i interface&#xD;
-    After=network.target&#xD;
-    [Service]&#xD;
-    Type=oneshot&#xD;
-    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease&#xD;
-    RemainAfterExit=yes&#xD;
-  owner: root:root&#xD;
-  permissions: '0644'&#xD;
-- path: /etc/rc.local&#xD;
-  owner: root:root&#xD;
-  permissions: '0755'&#xD;
-  content: |-&#xD;
-    #!/bin/sh&#xD;
-    ifconfig eth1 up 10.0.0.1 netmask 255.255.128.0&#xD;
-    route add -net 10.0.128.0/17 gw 10.0.0.254&#xD;
-    exit 0&#xD;
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-iperf-1
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.21.6
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.0.1 netmask 255.255.128.0
+    exit 0
 </entry>
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.0.1" netPrefixLenV4="17"/>
     </node>
-    <node name="lxc-iperf-2" type="SIMPLE" subtype="lxc-iperf" location="708,240">
+    <node name="lxc-iperf-2" type="SIMPLE" subtype="lxc-iperf" location="735,184">
         <extensions>
-            <entry key="config" type="String">#cloud-config&#xD;
-bootcmd:&#xD;
-- ln -s -t /etc/rc.d /etc/rc.local&#xD;
-hostname: lxc-iperf-2&#xD;
-manage_etc_hosts: true&#xD;
-runcmd:&#xD;
-- systemctl start rc-local&#xD;
-- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config&#xD;
-- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config&#xD;
-- service ssh restart&#xD;
-- service sshd restart&#xD;
-users:&#xD;
-- default&#xD;
-- gecos: User configured by VIRL Configuration Engine 0.20.22&#xD;
-  lock-passwd: false&#xD;
-  name: cisco&#xD;
-  plain-text-passwd: cisco&#xD;
-  shell: /bin/bash&#xD;
-  ssh-authorized-keys:&#xD;
-  - VIRL-USER-SSH-PUBLIC-KEY&#xD;
-  sudo: ALL=(ALL) ALL&#xD;
-write_files:&#xD;
-- path: /etc/systemd/system/dhclient@.service&#xD;
-  content: |&#xD;
-    [Unit]&#xD;
-    Description=Run dhclient on %i interface&#xD;
-    After=network.target&#xD;
-    [Service]&#xD;
-    Type=oneshot&#xD;
-    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease&#xD;
-    RemainAfterExit=yes&#xD;
-  owner: root:root&#xD;
-  permissions: '0644'&#xD;
-- path: /etc/rc.local&#xD;
-  owner: root:root&#xD;
-  permissions: '0755'&#xD;
-  content: |-&#xD;
-    #!/bin/sh&#xD;
-    ifconfig eth1 up 10.0.128.3 netmask 255.255.128.0&#xD;
-    route add -net 10.0.0.0/17 gw 10.0.128.254&#xD;
-    exit 0&#xD;
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-iperf-2
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.21.6
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.128.3 netmask 255.255.128.0
+    exit 0
 </entry>
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.128.3" netPrefixLenV4="17"/>
